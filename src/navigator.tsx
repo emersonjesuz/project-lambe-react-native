@@ -36,7 +36,7 @@ const RouterAuth = createStackNavigator<AuthStackParamList>();
 const AuthStack = () => {
   return (
     <RouterAuth.Navigator
-      initialRouteName="Profile"
+      initialRouteName="Auth"
       screenOptions={{headerShown: false}}>
       <RouterAuth.Screen name="Profile" component={Profile} />
       <RouterAuth.Screen name="Auth" component={ResgisterStack} />

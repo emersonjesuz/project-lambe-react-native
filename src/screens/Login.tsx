@@ -1,4 +1,3 @@
-import {NavigationProp} from '@react-navigation/native';
 import {useState} from 'react';
 import {
   StyleSheet,
@@ -7,18 +6,24 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {connect} from 'react-redux';
+import {login} from '../store/actions/Users';
+import UserTypes from '../types/user';
 
 type props = {
   navigation: any;
+  onLogin: (user: UserTypes) => {};
 };
 
-export default function Login({navigation}: Readonly<props>) {
+function Login({navigation, onLogin}: Readonly<props>) {
   const [form, setForm] = useState({
+    name: 'temporario',
     email: '',
     password: '',
   });
   const effectLogin = () => {
-    // navigation.navigate('navigation', navigation);
+    onLogin({...form});
+    navigation.navigate('Profile');
   };
 
   return (
@@ -51,6 +56,14 @@ export default function Login({navigation}: Readonly<props>) {
     </View>
   );
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onLogin: (user: UserTypes) => dispatch(login(user)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   container: {
