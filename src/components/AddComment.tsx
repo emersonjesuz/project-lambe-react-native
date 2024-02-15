@@ -5,9 +5,13 @@ import {
   TouchableWithoutFeedback as TWF,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {faComment} from '@fortawesome/free-regular-svg-icons';
+import {faXmark} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 
 export default function AddComment() {
   const [showComment, setShowComment] = useState({
@@ -26,24 +30,28 @@ export default function AddComment() {
           <TextInput
             style={styles.input}
             value={showComment.comment}
-            focusable={true}
+            autoFocus={true}
             onChangeText={comment => {
               setShowComment({...showComment, comment: `${comment}`});
             }}
             onSubmitEditing={handleAddComment}
           />
-          <TWF onPress={() => setShowComment({comment: '', editMode: false})}>
-            {/* <Icon name="times" size={15} color={'#555'} /> */}
-            <Text>X</Text>
-          </TWF>
+          <TouchableOpacity
+            onPress={() => {
+              setShowComment({comment: '', editMode: false});
+            }}>
+            <FontAwesomeIcon icon={faXmark} size={25} color={'#555'} />
+          </TouchableOpacity>
         </View>
       );
     } else {
       return (
-        <TWF onPress={() => setShowComment({...showComment, editMode: true})}>
+        <TWF
+          onPress={() => {
+            setShowComment({comment: '', editMode: true});
+          }}>
           <View style={styles.container}>
-            <Icon name="comment-o" size={25} color={'#555'} />
-
+            <FontAwesomeIcon icon={faComment} size={25} color={'#555'} />
             <Text style={styles.caption}>Adicione um comentário...</Text>
           </View>
         </TWF>
@@ -64,6 +72,8 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '90%',
+    borderBottomColor: '#DDCEFE',
+    borderBottomWidth: 1,
   },
   caption: {
     marginLeft: 10,

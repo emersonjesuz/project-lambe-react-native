@@ -14,6 +14,7 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
     marginTop: Platform.OS === 'ios' ? 20 : 0,
     padding: 10,
     borderBottomWidth: 1,
