@@ -2,8 +2,7 @@ import UserTypes from '../../types/user';
 import {USER_LOGGED_IN, USER_LOGGED_OUT} from '../actions/ActionsTypes';
 
 const initialState = {
-  name: null,
-  email: null,
+  user: {name: null, email: null},
 };
 
 type ActionsTypes = {
@@ -11,13 +10,13 @@ type ActionsTypes = {
   payload: UserTypes;
 };
 
-const reducer = (state = initialState, action: ActionsTypes) => {
-  switch (action.type) {
+const reducer = (state = initialState, actions: ActionsTypes) => {
+  switch (actions.type) {
     case USER_LOGGED_IN:
       return {
         ...state,
-        name: action.payload.name,
-        email: action.payload.email,
+        name: actions.payload.name,
+        email: actions.payload.email,
       };
     case USER_LOGGED_OUT:
       return {

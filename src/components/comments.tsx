@@ -1,11 +1,11 @@
 import {StyleSheet, Text, View} from 'react-native';
-import {CommentsType} from '../types/Comments';
+import {CommentType} from '../types/Comments';
 
 type props = {
-  listComments: CommentsType[];
+  listComments: CommentType[];
 };
 
-export default function Comments({listComments}: props) {
+export default function Comments({listComments}: Readonly<props>) {
   let contentView = null;
 
   if (listComments) {

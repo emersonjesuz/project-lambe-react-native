@@ -6,7 +6,7 @@ type props = {
   nickname: string;
 };
 
-export default function Author({email, nickname}: props) {
+export default function Author({email, nickname}: Readonly<props>) {
   return (
     <View style={styles.container}>
       <Gravatar email={email} style={styles.avatar} />

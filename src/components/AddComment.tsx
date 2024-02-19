@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
+import {faComment} from '@fortawesome/free-regular-svg-icons';
+import {faXmark} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {useState} from 'react';
 import {
-  Alert,
   StyleSheet,
   TouchableWithoutFeedback as TWF,
   Text,
@@ -8,19 +10,33 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {faComment} from '@fortawesome/free-regular-svg-icons';
-import {faXmark} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {useDispatch, useSelector} from 'react-redux';
+import {addComment} from '../store/actions/Post';
+import UserTypes from '../types/user';
 
-export default function AddComment() {
+type props = {
+  postID: number;
+};
+
+export default function AddComment({postID}: Readonly<props>) {
   const [showComment, setShowComment] = useState({
     comment: '',
     editMode: false,
   });
 
+  const name = useSelector(({user}: {user: UserTypes}) => user.name);
+
+  const dispatch = useDispatch();
+
   const handleAddComment = () => {
-    Alert.alert('Adicionado', showComment.comment);
+    const comment = {
+      comment: showComment.comment,
+      nickname: name!,
+    };
+
+    dispatch(addComment({comment, postID}));
+
+    setShowComment({comment: '', editMode: false});
   };
 
   const tooggleView = (): React.JSX.Element => {

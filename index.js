@@ -3,13 +3,14 @@ import React from 'react';
 import {name as appName} from './app.json';
 import TabNavigator from './src/navigator';
 import {Provider} from 'react-redux';
-import storeConfig from './src/store/StoreConfig';
+import {storeConfig} from './src/store/StoreConfig';
+import axios from 'axios';
 
-const store = storeConfig();
+axios.defaults.baseURL = 'https://lambe-b2144-default-rtdb.firebaseio.com/';
 
 const Redux = () => {
   return (
-    <Provider store={store}>
+    <Provider store={storeConfig}>
       <TabNavigator />
     </Provider>
   );

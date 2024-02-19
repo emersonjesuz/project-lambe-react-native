@@ -1,21 +1,22 @@
 import Gravatar from '@krosben/react-native-gravatar';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../store/actions/Users';
-import {connect} from 'react-redux';
 import UserTypes from '../types/user';
 
 type props = {
   navigation: any;
-  email: string;
-  name?: string;
-  onLogout: any;
 };
 
-function Profile({navigation, email, name, onLogout}: Readonly<props>) {
-  const options = {email, secure: true};
+export default function Profile({navigation}: Readonly<props>) {
+  const dispatch = useDispatch();
 
+  const email = useSelector(({user}: {user: UserTypes}) => user.email);
+  const name = useSelector(({user}: {user: UserTypes}) => user.name);
+
+  const options = {email, secure: true};
   const handlerLogout = () => {
-    onLogout();
+    dispatch(logout());
     navigation.navigate('Auth');
   };
 
@@ -45,8 +46,6 @@ const mapDispatchToProps = (dispatch: any) => {
     onLogout: () => dispatch(logout()),
   };
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
 
 const styles = StyleSheet.create({
   container: {

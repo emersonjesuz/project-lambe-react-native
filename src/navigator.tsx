@@ -7,8 +7,8 @@ import Feed from './screens/Feed';
 import Profile from './screens/Profile';
 
 import {faCamera, faHome, faUser} from '@fortawesome/free-solid-svg-icons';
-import Login from './screens/Login';
 import React from 'react';
+import Login from './screens/Login';
 import Register from './screens/Register';
 
 type AuthStackParamList = {
@@ -46,7 +46,7 @@ const AuthStack = () => {
 
 const Tab = createBottomTabNavigator();
 
-export default () => {
+export default function Navigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -88,4 +88,4 @@ export default () => {
       </Tab.Navigator>
     </NavigationContainer>
   );
-};
+}

@@ -1,13 +1,16 @@
-import {combineReducers, createStore} from 'redux';
-
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import postsReducer from './reduces/Post';
 import userReducer from './reduces/Users';
 
 const reducers = combineReducers({
+  posts: postsReducer,
   user: userReducer,
 });
 
-const storeConfig = () => {
-  return createStore(reducers);
-};
-
-export default storeConfig;
+export const storeConfig = configureStore({
+  reducer: reducers,
+  middleware: Gdm =>
+    Gdm({
+      thunk: true,
+    }),
+});

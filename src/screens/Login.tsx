@@ -6,24 +6,29 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {login} from '../store/actions/Users';
-import UserTypes from '../types/user';
 
 type props = {
   navigation: any;
-  onLogin: (user: UserTypes) => {};
 };
 
-function Login({navigation, onLogin}: Readonly<props>) {
+export default function Login({navigation}: Readonly<props>) {
   const [form, setForm] = useState({
     name: 'temporario',
     email: '',
     password: '',
   });
+
+  const dispatch = useDispatch();
+
   const effectLogin = () => {
-    onLogin({...form});
-    navigation.navigate('Profile');
+    try {
+      dispatch(login({...form}));
+      navigation.navigate('Profile');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -43,7 +48,7 @@ function Login({navigation, onLogin}: Readonly<props>) {
         value={form.password}
         onChangeText={password => setForm({...form, password})}
       />
-      <TouchableOpacity onPress={effectLogin} style={styles.buttom}>
+      <TouchableOpacity onPress={() => effectLogin} style={styles.buttom}>
         <Text style={styles.buttomText}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -56,14 +61,6 @@ function Login({navigation, onLogin}: Readonly<props>) {
     </View>
   );
 }
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    onLogin: (user: UserTypes) => dispatch(login(user)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   container: {

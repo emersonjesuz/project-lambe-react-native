@@ -1,28 +1,25 @@
+import Gravatar from '@krosben/react-native-gravatar';
+import {useNavigation} from '@react-navigation/native';
 import {
   Image,
   Platform,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import Icon from '../../assets/imgs/icon.png';
-import Gravatar from '@krosben/react-native-gravatar';
-import {connect} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import UserTypes from '../types/user';
 
-type props = {
-  email: string;
-  name: string;
-};
+export default function Header() {
+  const email = useSelector(({user}: {user: UserTypes}) => user.email);
+  const name = useSelector(({user}: {user: UserTypes}) => user.name);
 
-function Header({email, name}: props) {
   const gravatar = email ? (
     <Gravatar email={email} style={styles.avatar} />
   ) : null;
-
-  const navigation = useNavigation().navigate;
-
+  const {navigate} = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.rowContainer}>
@@ -31,22 +28,13 @@ function Header({email, name}: props) {
       </View>
       <TouchableOpacity
         style={styles.useConatiner}
-        onPress={() => navigation(email ? 'Profile' : 'Auth')}>
+        onPress={() => navigate('Main')}>
         <Text style={styles.user}>{name ?? 'Entrar'}</Text>
         {gravatar}
       </TouchableOpacity>
     </View>
   );
 }
-
-const mapStateToProps = ({user}: {user: any}) => {
-  return {
-    email: user.email,
-    name: user.name,
-  };
-};
-
-export default connect(mapStateToProps)(Header);
 
 const styles = StyleSheet.create({
   container: {

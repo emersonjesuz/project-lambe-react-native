@@ -1,23 +1,34 @@
 import {useState} from 'react';
 import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  Image,
+  Alert,
   Dimensions,
+  Image,
+  PermissionsAndroid,
   Platform,
   ScrollView,
-  Alert,
-  ImageProps,
-  PermissionsAndroid,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
-import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
-export default function AddPhoto() {
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {addPost} from '../store/actions/Post';
+import UserTypes from '../types/user';
+
+type props = {
+  navigation: any;
+};
+
+export default function AddPhoto({navigation}: Readonly<props>) {
   const [image, setImage] = useState<any>({});
   const [comment, setComment] = useState('');
+
+  const dispatch = useDispatch();
+  const email = useSelector(({user}: {user: UserTypes}) => user.email);
+  const name = useSelector(({user}: {user: UserTypes}) => user.name);
 
   const pickerImage = async (typePhoto: 'now' | 'gallery') => {
     const permissionToPhoto = await generatorPermission();
@@ -90,8 +101,22 @@ export default function AddPhoto() {
   };
 
   const save = () => {
-    Alert.alert('salvado', '');
+    const newPost = {
+      id: Math.random(),
+      email,
+      nickname: name!,
+      image,
+      comments: comment ? [{nickname: name!, comment}] : [],
+    };
+
+    dispatch(addPost(newPost));
+
+    setComment('');
+    setImage('');
+
+    navigation.navigate('Feed');
   };
+
   return (
     <ScrollView>
       <View style={styles.container}>

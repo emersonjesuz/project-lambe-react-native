@@ -1,29 +1,34 @@
 import {Dimensions, Image, StyleSheet, View} from 'react-native';
-import {CommentsType} from '../types/Comments';
+import {useSelector} from 'react-redux';
+import {CommentType} from '../types/Comments';
+import UserTypes from '../types/user';
+import AddComment from './AddComment';
 import Author from './Author';
 import Comments from './comments';
-import AddComment from './AddComment';
-import {ReactPropTypes} from 'react';
 
 type props = {
+  id: number;
   image: any;
   nickname: string;
-  email: string;
-  listComments: CommentsType[];
+  listComments: CommentType[];
 };
 
 export default function Post({
+  id,
   image,
   listComments,
-  email,
   nickname,
 }: Readonly<props>) {
+  const email = useSelector(({user}: {user: UserTypes}) => user.email);
+
+  const addComment = email ? <AddComment postID={id} /> : null;
+
   return (
     <View style={styles.container}>
       <Image source={image} style={styles.image} />
       <Author email={email} nickname={nickname} />
       <Comments listComments={listComments} />
-      <AddComment />
+      {addComment}
     </View>
   );
 }
